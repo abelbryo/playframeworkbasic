@@ -1,0 +1,34 @@
+@(signup_form: Form[User])
+
+@import helper._
+
+
+@main("SignUp"){
+
+    @helper.form(action = routes.Application.submitUser ) {
+        @inputText(
+            signup_form("firstName"),
+            '_label -> "First name"
+        )
+
+        @inputText(
+            signup_form("middleInitial"),
+            '_label -> "Middle Initial"
+        )
+
+        @inputText(
+            signup_form("lastName"),
+            '_label -> "Last name"
+        )
+
+        @inputText(
+            signup_form("age"),
+            '_label -> "Age"
+        )
+
+        <div>
+            <input type="submit" value="Sign up">
+            <a href="@routes.Application.index">Cancel</a>
+        </div>
+    }
+}
