@@ -9,7 +9,7 @@
 
         <ul> 
             @user.map { u =>  
-                <li> @{ u.firstName + "  " + u.lastName } </li>
+                <li> @{ u.firstName + "  " + u.lastName + " [Added on " + u.timeStamp + "]" } </li>
             }
         </ul>
 

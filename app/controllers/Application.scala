@@ -1,5 +1,8 @@
 package controllers
 
+import java.util.Date
+import java.sql.Timestamp
+
 import play.api._
 import play.api.mvc._
 
@@ -7,6 +10,7 @@ import play.api.data._
 import play.api.data.Forms._
 
 import org.mindrot.jbcrypt.BCrypt._
+
 
 import models._
 
@@ -38,7 +42,8 @@ object Application extends Controller {
     registrationForm.bindFromRequest.fold(
       errors => BadRequest(views.html.form(errors)),
       u => {
-        val user = User(null, u.firstName, u.middleInit, u.lastName, u.age, u.email, hashpw(u.password, gensalt()))
+        val now = new Timestamp(new Date().getTime) 
+        val user = User(null, u.firstName, u.middleInit, u.lastName, u.age, u.email, hashpw(u.password, gensalt()), now)
 
         val result = User.save(user)
         println("----- ----- ----- ----- -----")

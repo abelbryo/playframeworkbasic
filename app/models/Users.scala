@@ -1,5 +1,7 @@
 package models
 
+import java.sql.Timestamp
+
 import play.api.db.slick.Config.driver.simple._
 import play.api.db.slick.DB
 import scala.slick.session.Session
@@ -29,7 +31,8 @@ case class User(id: Option[Long],
                 lastName: String,
                 age: Int,
                 email:String,
-                passwordHash: String
+                passwordHash: String,
+                timeStamp: Timestamp 
               )
 
 /**
@@ -43,10 +46,11 @@ class Users extends Table[User]("USERS"){
   def age           = column[Int]("AGE")
   def email         = column[String]("EMAIL")
   def passwordHash  = column[String]("PASSWORD_HASH")
+  def timeStamp     = column[Timestamp]("TIMESTAMP")
 
-  def * = id.? ~ firstName ~ middleInitial ~ lastName ~ age ~ email ~ passwordHash <> (User.apply _ , User.unapply _)
+  def * = id.? ~ firstName ~ middleInitial ~ lastName ~ age ~ email ~ passwordHash ~ timeStamp <> (User.apply _ , User.unapply _)
 
-  def autoInc = firstName ~ middleInitial ~ lastName ~ age ~ email ~ passwordHash returning id.?
+  def autoInc = firstName ~ middleInitial ~ lastName ~ age ~ email ~ passwordHash ~ timeStamp returning id.?
 }
 
 // Companion object 
@@ -58,9 +62,9 @@ object User {
     Query(table).list 
   }
 
-  def save(user: User) : Option[Long] = {
+  def save(u: User) : Option[Long] = {
     val id: Option[Long] = DB.withSession { implicit session => 
-      table.autoInc.insert(user.firstName, user.middleInit, user.lastName, user.age, user.email, user.passwordHash) 
+      table.autoInc.insert(u.firstName, u.middleInit, u.lastName, u.age, u.email, u.passwordHash, u.timeStamp) 
     }  
   id 
   }
