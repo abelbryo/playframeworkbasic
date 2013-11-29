@@ -1,4 +1,4 @@
-@(signup_form: Form[User])
+@(signup_form: Form[UserRegistration])
 
 @import helper._
 
@@ -24,6 +24,21 @@
         @inputText(
             signup_form("age"),
             '_label -> "Age"
+        )
+        
+        @inputText(
+            signup_form("email"),
+            '_label -> "Email"
+        )
+
+        @inputPassword(
+            signup_form("password"),
+            '_label -> "Enter Password"
+        )
+
+        @inputPassword(
+            signup_form("password2"),
+            '_label -> "Confirm password"
         )
 
         <div>
